@@ -1,4 +1,3 @@
-// fcfs.js - First-Come, First-Served disk scheduling algorithm
 import { calculateTotalSeekTime, calculateAverageSeekTime } from './common';
 
 /**
@@ -8,15 +7,9 @@ import { calculateTotalSeekTime, calculateAverageSeekTime } from './common';
  * @returns {Object} Result object with seek time, average seek time, and sequence
  */
 const fcfs = (requests, initialHeadPosition) => {
-  // Create the sequence starting with the initial head position
   const sequence = [initialHeadPosition, ...requests];
-  
-  // Calculate total seek time
   const seekTime = calculateTotalSeekTime(sequence);
-  
-  // Calculate average seek time (divide by number of requests, not sequence length)
   const averageSeekTime = calculateAverageSeekTime(seekTime, requests.length);
-  
   return {
     name: 'FCFS',
     sequence,
@@ -24,5 +17,4 @@ const fcfs = (requests, initialHeadPosition) => {
     averageSeekTime
   };
 };
-
 export default fcfs; 

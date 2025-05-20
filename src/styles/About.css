@@ -4,8 +4,6 @@
   padding: 20px;
   animation: fadeIn 1s ease-in;
 }
-
-/* Animated heading */
 .about h1 {
   font-size: 2.2rem;
   color: #0369a1;
@@ -13,8 +11,6 @@
   margin-bottom: 30px;
   animation: slideDown 1s ease-out;
 }
-
-/* Section with stagger animation */
 .about-section {
   margin-bottom: 40px;
   background-color: white;
@@ -25,8 +21,6 @@
   animation: fadeSlideUp 0.8s ease-out forwards;
   animation-delay: 0.4s;
 }
-
-/* All sections get a different delay using nth-child if needed */
 .about-section:nth-child(2) { animation-delay: 0.6s; }
 .about-section:nth-child(3) { animation-delay: 0.8s; }
 .about-section:nth-child(4) { animation-delay: 1s; }
@@ -50,8 +44,6 @@
 .about-section li {
   margin-bottom: 8px;
 }
-
-/* Hover animation for algorithm blocks */
 .algorithm-detail {
   margin-bottom: 24px;
   padding: 16px;
@@ -75,8 +67,6 @@
   margin-bottom: 0;
   font-size: 0.95rem;
 }
-
-/* Responsive */
 @media (max-width: 768px) {
   .about h1 {
     font-size: 1.8rem;
@@ -86,8 +76,6 @@
     padding: 20px;
   }
 }
-
-/* === Keyframes === */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
