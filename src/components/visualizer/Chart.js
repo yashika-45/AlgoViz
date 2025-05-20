@@ -1,39 +1,40 @@
-import React, { useRef, useEffect } from 'react';
-import Chart from 'chart.js/auto';
-import '../../styles/Chart.css';
+import React, { useRef, useEffect } from "react";
+import Chart from "chart.js/auto";
+import "../../styles/Chart.css";
 
 const DiskChart = ({ data }) => {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
-  
+
   useEffect(() => {
-    // If chart exists, destroy it
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
-    
-    // If we have data, create the chart
     if (data && data.sequence && chartRef.current) {
-      const ctx = chartRef.current.getContext('2d');
-      
-      // Create step labels (0, 1, 2, ...)
-      const labels = Array.from({ length: data.sequence.length }, (_, i) => i);
-      
-      // Create the chart
+      const ctx = chartRef.current.getContext("2d");
+      const formattedData = data.sequence.map((cylinder, index) => ({
+        x: cylinder,
+        y: index,
+      }));
+
       chartInstance.current = new Chart(ctx, {
-        type: 'line',
+        type: "line",
         data: {
-          labels: labels,
-          datasets: [{
-            label: `${data.name} Disk Movement`,
-            data: data.sequence,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 2,
-            pointRadius: 6,
-            pointHoverRadius: 8,
-            tension: 0.1
-          }]
+          datasets: [
+            {
+              label: `${data.name} Disk Movement`,
+              data: formattedData,
+              borderColor: "red",
+              borderWidth: 2,
+              showLine: true,
+              fill: false,
+              pointBackgroundColor: "#fff",
+              pointBorderColor: "red",
+              pointRadius: 4,
+              pointHoverRadius: 6,
+              tension: 0, 
+            },
+          ],
         },
         options: {
           responsive: true,
@@ -41,56 +42,57 @@ const DiskChart = ({ data }) => {
           plugins: {
             title: {
               display: true,
-              text: 'Disk Head Movement Visualization',
+              text: "Disk Head Movement Visualization",
               font: {
-                size: 16
-              }
+                size: 18,
+              },
             },
             tooltip: {
               callbacks: {
                 label: (context) => {
-                  const pointIndex = context.dataIndex;
-                  const value = context.raw;
-                  if (pointIndex === 0) {
-                    return `Initial Head Position: ${value}`;
-                  }
-                  return `Cylinder: ${value}`;
-                }
-              }
-            }
+                  return `Step ${context.raw.y}: Cylinder ${context.raw.x}`;
+                },
+              },
+            },
           },
           scales: {
-            y: {
+            x: {
+              type: "linear",
+              position: "bottom",
               title: {
                 display: true,
-                text: 'Cylinder Number'
+                text: "Cylinder Number",
+              },
+              min: 0,
+              suggestedMax: Math.max(...data.sequence) + 5,
+            },
+            y: {
+              type: "linear",
+              title: {
+                display: true,
+                text: "Step",
               },
               beginAtZero: true,
-              suggestedMax: 200
+              reverse: true, 
+              ticks: {
+                stepSize: 1,
+              },
             },
-            x: {
-              title: {
-                display: true,
-                text: 'Sequence Step'
-              }
-            }
-          }
-        }
+          },
+        },
       });
     }
-    
-    // Cleanup function
     return () => {
       if (chartInstance.current) {
         chartInstance.current.destroy();
       }
     };
   }, [data]);
-  
+
   if (!data || !data.sequence) {
     return <div className="chart-container">No data to display</div>;
   }
-  
+
   return (
     <div className="chart-container">
       <canvas ref={chartRef}></canvas>
@@ -98,4 +100,4 @@ const DiskChart = ({ data }) => {
   );
 };
 
-export default DiskChart; 
+export default DiskChart;
