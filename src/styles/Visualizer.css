@@ -175,3 +175,76 @@
     grid-column: span 2;
   }
 } 
+/* Dark Mode Overrides */
+body.dark .visualizer {
+  background-color: #1e293b;
+  color: #f1f5f9;
+  border: 1px solid #334155;
+}
+
+body.dark .visualizer h2 {
+  color: #e2e8f0;
+}
+
+body.dark .controls {
+  background-color: #334155;
+  border-color: #475569;
+}
+
+body.dark .input-group label {
+  color: #cbd5e1;
+}
+
+body.dark .input-with-button input {
+  background-color: #1e293b;
+  color: #f1f5f9;
+  border: 1px solid #475569;
+}
+
+body.dark .random-btn {
+  background-color: #64748b;
+}
+
+body.dark .random-btn:hover {
+  background-color: #4b5563;
+}
+
+body.dark .run-btn {
+  background-color: #3b82f6;
+}
+
+body.dark .run-btn:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+body.dark .run-btn:disabled,
+body.dark .run-btn.loading {
+  background-color: #60a5fa;
+}
+
+body.dark .error {
+  background-color: #fecaca;
+  color: #7f1d1d;
+  border-left-color: #ef4444;
+}
+
+body.dark .result-summary {
+  background-color: #1e40af;
+  border-color: #3b82f6;
+}
+
+body.dark .result-summary h3 {
+  color: #e0f2fe;
+}
+
+body.dark .metric-label {
+  color: #cbd5e1;
+}
+
+body.dark .chart {
+  background-color: #1e293b;
+  border-color: #475569;
+}
+body.dark .visualizer {
+  color: #f1f5f9;
+}
