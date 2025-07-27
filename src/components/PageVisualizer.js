@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { fifo, lru, optimal, clock } from '../algorithms/pageAlgorithms';
-import '../styles/pageVisualizer.css';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from "react";
+import { fifo, lru, optimal, clock } from "../algorithms/pageAlgorithms";
+import "../styles/pageVisualizer.css";
+import { useNavigate } from "react-router-dom";
 
 const algorithms = {
   FIFO: fifo,
@@ -9,8 +9,8 @@ const algorithms = {
   Optimal: optimal,
 };
 function PageVisualizer() {
-  const [algorithm, setAlgorithm] = useState('FIFO');
-  const [input, setInput] = useState('7 0 1 2 0 3 0 4 2 3 0 3 2');
+  const [algorithm, setAlgorithm] = useState("FIFO");
+  const [input, setInput] = useState("7 0 1 2 0 3 0 4 2 3 0 3 2");
   const [capacity, setCapacity] = useState(3);
   const [history, setHistory] = useState([]);
   const [pageStates, setPageStates] = useState([]);
@@ -24,17 +24,16 @@ function PageVisualizer() {
     const fn = algorithms[algorithm];
     const { history, faults } = fn(pages, parseInt(capacity));
 
-   const states = [];
-const seenPages = new Set();
+    const states = [];
+    const seenPages = new Set();
 
-for (let i = 0; i < pages.length; i++) {
-  const current = pages[i];
-  const frameBefore = i === 0 ? [] : history[i - 1][0];
+    for (let i = 0; i < pages.length; i++) {
+      const current = pages[i];
+      const frameBefore = i === 0 ? [] : history[i - 1][0];
 
-  const hit = frameBefore.includes(current);
-  states.push(hit ? 'HIT' : 'MISS');
-}
-
+      const hit = frameBefore.includes(current);
+      states.push(hit ? "HIT" : "MISS");
+    }
 
     setHistory(history);
     setPageStates(states);
@@ -60,23 +59,19 @@ for (let i = 0; i < pages.length; i++) {
   }, [playing, history]);
 
   const pages = input.trim().split(/\s+/).map(Number);
- 
- const navigate = useNavigate();
+
+  const navigate = useNavigate();
   return (
     <div className="page-visualizer">
-      <h1>📄 Page Replacement Visualizer</h1>
-        <div className="mb-6">
-  <button
-    onClick={() => navigate('/')}
-    className="text-sm bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded shadow transition-all"
-  >
-    ← Back to Home
-  </button>
-</div>
+      <h1 className="head">Page Replacement Visualizer</h1>
+      <div className="mb-6"></div>
       <div className="controls">
         <label>Algorithm:</label>
-        <select value={algorithm} onChange={(e) => setAlgorithm(e.target.value)}>
-          {Object.keys(algorithms).map(algo => (
+        <select
+          value={algorithm}
+          onChange={(e) => setAlgorithm(e.target.value)}
+        >
+          {Object.keys(algorithms).map((algo) => (
             <option key={algo}>{algo}</option>
           ))}
         </select>
@@ -85,21 +80,24 @@ for (let i = 0; i < pages.length; i++) {
         <input value={input} onChange={(e) => setInput(e.target.value)} />
 
         <label>Frame Capacity:</label>
-        <input type="number" value={capacity} onChange={(e) => setCapacity(e.target.value)} />
+        <input
+          type="number"
+          value={capacity}
+          onChange={(e) => setCapacity(e.target.value)}
+        />
 
-       <div className="button-group">
-  <button onClick={handleRun}>Start</button>
-  <button
-    onClick={() => {
-      clearInterval(intervalRef.current);
-      setPlaying(false);
-    }}
-    disabled={!playing}
-  >
-    Stop
-  </button>
-</div>
-
+        <div className="button-group">
+          <button onClick={handleRun}>Start</button>
+          <button
+            onClick={() => {
+              clearInterval(intervalRef.current);
+              setPlaying(false);
+            }}
+            disabled={!playing}
+          >
+            Stop
+          </button>
+        </div>
       </div>
 
       {history.length > 0 && (
@@ -120,7 +118,9 @@ for (let i = 0; i < pages.length; i++) {
                     <td className="frame-label">Frame {frameIdx}</td>
                     {history.slice(0, currentStep + 1).map((step, stepIdx) => (
                       <td key={stepIdx} className="frame-cell">
-                        {step[0][frameIdx] !== undefined ? step[0][frameIdx] : '-'}
+                        {step[0][frameIdx] !== undefined
+                          ? step[0][frameIdx]
+                          : "-"}
                       </td>
                     ))}
                   </tr>
@@ -128,12 +128,12 @@ for (let i = 0; i < pages.length; i++) {
                 <tr>
                   <td className="frame-label">Result</td>
                   {pageStates.slice(0, currentStep + 1).map((state, i) => (
-                    <td
-                      key={i}
-                      className={`state-cell ${state === 'HIT' ? 'hit' : 'miss'}`}
-                    >
-                      {state}
-                    </td>
+                   <td key={i}>
+  <span className={state === "HIT" ? "page-hit" : "page-miss"}>
+    {state}
+  </span>
+</td>
+
                   ))}
                 </tr>
               </tbody>
